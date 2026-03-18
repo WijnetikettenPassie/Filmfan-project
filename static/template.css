@@ -1,0 +1,88 @@
+/* 1. Body styling */
+body {
+    background-color: #210202;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2, p {
+    color: #d9d9d9;
+}
+
+/* 2. Navbar styling */
+.navbar-gradient {
+    background: linear-gradient(to left, #000000, #a00606);
+}
+
+/* Padding links en rechts in navbar */
+.navbar-paddingleft {
+    padding-left: 40px;
+}
+
+.navbar-paddingright {
+    padding-right: 40px;
+}
+
+/* 3. Button styling */
+.custom-button {
+    background-color: rgb(123, 19, 19);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.custom-button:hover {
+    background-color: rgb(150, 25, 25);
+    color: white;
+    cursor: pointer;
+    transform: translateY(-2px);
+    transition: 0.2s ease;
+}
+
+/*Overwrite alle andere btn stijlen*/
+.login-button {
+    background-color: rgb(138, 19, 19);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+    height: 35px !important;
+    
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 14px;
+    line-height: 1;
+    
+    /*Dit is een ai toevoeging zodat de buttons goed centreren*/
+    display: inline-flex;          
+    align-items: center;           /* centreert verticaal */
+    justify-content: center;       /* centreert verticall */
+}
+
+.login-button:hover {
+    background-color: rgb(119, 16, 16); /* iets donkerder */
+    color: white;
+}
+
+/* 4. Searchbar styling */
+.search-size {
+    width: 500px; /* vaste breedte */
+}
+
+.search-form {
+    width: 50%;
+    min-width: 300px; /* voorkomt dat hij te klein wordt */
+}
+
+/* 5. Loop icon spacing */
+.loop {
+    margin-left: 10px;
+}
+
+/* 6. Algemene content padding */
+.content {
+    padding-left: 40px;
+    padding-top: 50px;
+}
+

@@ -1,0 +1,70 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>home</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel = "stylesheet" href = "{{url_for('static',filename='template.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='Filmfan2.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="movie-header">
+        <h2>Brand het hout: The movie</h2>
+        <div class="rating">★★★★☆</div>
+        <img class="mom-badge" src="{{ url_for('static', filename='Picture1.png') }}" alt="Movie of the Month badge">
+    </div>
+
+    <div class="video-container page-center">
+        <iframe 
+            src="https://www.youtube.com/embed/mSX3OyW9Rao?autoplay=1&mute=1"
+            allowfullscreen>
+        </iframe>
+
+        <p class="video-text">
+            Dit is een leuke video van een brandend haardvuur. In deze film speelt de acteur hout en zijn vriend vuur.
+        </p>
+    </div>
+
+    <h2 class="text-light mt-5">Acteurs</h2>
+
+    <div id="carouselactors" class="carousel slide mt-3 actor-carousel">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active text-center">
+                <img src="{{ url_for('static', filename='wojak.png') }}" 
+                     class="d-block mx-auto" 
+                     style="width:150px; border-radius:10px;"
+                     alt="Acteur 1">
+                <p class="mt-3 text-light">Acteur 1</p>
+            </div>
+
+            <div class="carousel-item text-center">
+                <img src="{{ url_for('static', filename='pbateman.jpg') }}" 
+                     class="d-block mx-auto" 
+                     style="width:150px; border-radius:10px;"
+                     alt="Acteur 2">
+                <p class="mt-3 text-light">Acteur 2</p>
+            </div>
+
+            <div class="carousel-item text-center">
+                <img src="{{ url_for('static', filename='wojak.png') }}" 
+                     class="d-block mx-auto" 
+                     style="width:150px; border-radius:10px;"
+                     alt="Acteur 3">
+                <p class="mt-3 text-light">Acteur 3</p>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselactors" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselactors" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+{% endblock %}

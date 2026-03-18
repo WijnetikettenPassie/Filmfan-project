@@ -1,0 +1,54 @@
+/* Video layout */
+.video-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    width: 90%;
+}
+
+.video-text {
+    color: #d9d9d9;
+    flex: 1;
+    min-width: 250px;
+}
+
+.video-container iframe {
+    width: 60%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+}
+
+/* Carousel grootte */
+.actor-carousel {
+    width: 60%;
+}
+
+/* Sterren rating */
+.rating {
+    display: inline-block;
+    font-size: 24px;
+    line-height: 1;
+    color: gold;
+    transform: translateY(0.20em);
+}
+
+/* Header met sterren */
+.movie-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.movie-header h1,
+.movie-header .rating {
+    margin: 0;
+    line-height: 1;
+    padding-bottom: 20px;
+}
+
+/* Movie of the Month badge */
+.mom-badge {
+    width: 80px;
+    height: auto;
+    padding-bottom: 10px;
+}

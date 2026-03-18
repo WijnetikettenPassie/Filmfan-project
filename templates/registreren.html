@@ -1,0 +1,40 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>Registratie</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='template.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Registratie FilmFan</h1>
+<br>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p> 
+        {{ form.username }}
+    </p>
+    <p>
+        {{ form.email }}
+    </p>
+    <p>
+        {{ form.wachtwoord }}
+    </p>
+    <p>
+        {{ form.wachtwoordherhalen }}
+        {% for error in form.wachtwoordherhalen.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        Geboortedatum:
+        <br>
+        {{ form.geboortedatum }}
+    </p>
+    <br>
+    {{ form.submit }}
+</form>
+
+{% endblock %}

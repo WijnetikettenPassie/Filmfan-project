@@ -1,0 +1,33 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='template.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <h1>Login Filmfan</h1>
+    <br>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.email }}
+        </p>
+
+        <p>
+            {{ form.wachtwoord }}
+        </p>
+        <br>
+        {{ form.submit}}
+    </form>
+
+    <br>
+    <p>Heb je nog geen account?</p>
+    <a href="/register" class="btn login-button">Registreren</a>
+
+{% endblock %}

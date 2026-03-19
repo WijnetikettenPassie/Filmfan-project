@@ -1,0 +1,8 @@
+.flash-messages li.success{
+    background-color: green;
+    color: blue;
+}
+.flash-messages li.danger{
+    background-color: red;
+    color: darkorange;
+}

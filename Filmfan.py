@@ -5,19 +5,25 @@ def get_db():
     conn.execute("PRAGMA foreign_keys=ON;")
     return conn
 
+import os
+from model import db
 from flask import Flask, render_template,redirect,flash
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired,EqualTo
 from wtforms import EmailField, PasswordField, StringField, SubmitField, DateField
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SECRET_KEY"] = "123"      #Acceptabel voor dit project maar normaal niet verstandig
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
 #Homepage
 @app.route("/")
 def home():
     return render_template("filmfan1.html")
 
-#Loginformulier velden
+#Loginformulier velden naar forms.py
 class LoginForm(FlaskForm):
     email = EmailField(validators=[DataRequired()],render_kw={"placeholder":"Email"})
     wachtwoord = PasswordField(validators =[DataRequired()],render_kw={"placeholder":"Wachtwoord"})
@@ -77,6 +83,8 @@ def register():
         
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
 
 

@@ -3,8 +3,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import Integer, Text, Date, ForeignKey
+from flask_migrate import Migrate
 db = SQLAlchemy()
-
+migrate = Migrate()
 
 class Acteur(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)

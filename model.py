@@ -40,4 +40,18 @@ class Film(db.Model):
     regisseur_id: Mapped[int] = mapped_column(ForeignKey("regisseur.id"))
     release_datum: Mapped[Date] = mapped_column(Date)
     trailer_url: Mapped[str] = mapped_column(Text)
-    
+
+
+#User class voor loginfunctionaliteit
+class User(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    wachtwoord: Mapped[str] = mapped_column(Text, nullable=False)
+    geboortedatum: Mapped[str] = mapped_column(Text)
+
+    def __init__(self, username, email, wachtwoord, geboortedatum):
+        self.username = username
+        self.email = email
+        self.wachtwoord = wachtwoord
+        self.geboortedatum = geboortedatum

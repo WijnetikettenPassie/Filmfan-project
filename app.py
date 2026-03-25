@@ -1,14 +1,8 @@
 import sqlite3
-def get_db():
-    conn=sqlite3.connect("filmfan.db")
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys=ON;")
-    return conn
-
 import os
 from forms import LoginForm, RegistrationForm
-from model import db,migrate
-from flask import Flask, render_template,redirect,flash
+from model import db,migrate,User
+from flask import Flask, render_template,redirect,flash,session
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SECRET_KEY"] = "123"      #Acceptabel voor dit project maar normaal niet verstandig
@@ -23,49 +17,60 @@ def home():
     return render_template("filmfan1.html")
 
 #Loginfunctionaliteit
-@app.route("/login", methods= ["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        email = form.email.data
-        wachtwoord = form.wachtwoord.data
-        db = get_db()
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM user WHERE email = ? AND password = ?",(email,wachtwoord))
-        row = cursor.fetchone()
-        db.close()
-        if row is None:
-            flash ('wachtwoord en email komen niet overeen','danger')
-        else:
-            flash ("login succesvol",'success')
-        return redirect("/login")
-    return render_template("login.html",form=form)
+        user = User.query.filter_by(
+            email=form.email.data,
+            wachtwoord=form.wachtwoord.data
+        ).first()
 
-@app.route("/register", methods = ["GET","POST"])
+        if user is None:
+            flash("Email of wachtwoord klopt niet", "danger")
+        else:
+            session["user_id"] = user.id
+            session["username"] = user.username  
+            flash("Login succesvol!", "success")
+            return redirect("/")
+
+    return render_template("login.html", form=form)
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        username = form.username.data
-        email = form.email.data
-        password = form.wachtwoord.data
-        geboortedatum = form.geboortedatum.data.strftime('%Y-%m-%d')  # Sla datum op als YYYY-MM-DD
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            wachtwoord=form.wachtwoord.data,
+            geboortedatum=form.geboortedatum.data.strftime('%Y-%m-%d')
+        )
 
-        db = get_db()
+        db.session.add(user)
+
         try:
-            db.execute(
-                "INSERT INTO user (username, email, password, geboortedatum) VALUES (?, ?, ?, ?)",
-                (username, email, password, geboortedatum)
-            )
-            db.commit()
-        except sqlite3.IntegrityError:
-            # Als username of email al bestaat
-            return "Gebruikersnaam of email bestaat al!"
-        finally:
-            db.close()
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            flash("Gebruikersnaam of email bestaat al!", "danger")
+            return render_template("registreren.html", form=form)
 
-        return redirect("/")
-    return render_template("registreren.html",form=form)
-        
+        flash("Registratie succesvol!", "success")
+        return redirect("/login")
+
+    return render_template("registreren.html", form=form)
+
+@app.route("/myaccount")
+def myaccount():
+    if not session.get("user_id"):
+        flash("Je moet eerst inloggen om je account te zien.", "warning")
+        return redirect("/login")
+    else:
+        return render_template("myaccount.html")
 
 
-
+@app.route("/logout", methods = ["GET","POST"])
+def logout():
+    session.clear()
+    return redirect("/")

@@ -31,15 +31,5 @@
     <p>Heb je nog geen account?</p>
     <a href="/register" class="btn login-button">Registreren</a>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash-messages">
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-        {% endwith %}
-
 {% endblock %}
 

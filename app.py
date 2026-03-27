@@ -1,7 +1,7 @@
 import sqlite3
 import os
 from forms import LoginForm, RegistrationForm
-from model import db,migrate,User
+from model import db,migrate,User,Film,Rol,Acteur,Regisseur
 from flask import Flask, render_template,redirect,flash,session
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -70,7 +70,27 @@ def myaccount():
         return render_template("myaccount.html")
 
 
-@app.route("/logout", methods = ["GET","POST"])
-def logout():
-    session.clear()
-    return redirect("/")
+@app.route("/film/<int:film_id>")
+def film_pagina(film_id):
+    film = Film.query.get_or_404(film_id)
+
+    regisseur = Regisseur.query.get(film.regisseur_id)
+
+    rollen = Rol.query.filter_by(film_id=film_id).all()
+
+    # acteurs koppelen aan rollen
+    rollen_met_acteurs = []
+    for rol in rollen:
+        acteur = Acteur.query.get(rol.acteur_id)
+        rollen_met_acteurs.append({
+            "personage": rol.personage,
+            "acteur": acteur
+        })
+
+    return render_template(
+        "film.html",
+        film=film,
+        regisseur=regisseur,
+        rollen=rollen_met_acteurs
+    )
+

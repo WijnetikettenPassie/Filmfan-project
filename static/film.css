@@ -1,0 +1,33 @@
+.cast-titel {
+    color: blue;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+.film-titel {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.film-info {
+    font-size: 18px;
+}
+
+body {
+    background-color: #210202;
+    color: darkred;
+}
+.list-group{
+    background-color:#210202;
+    color: aqua;
+}
+.film-titel{
+    color:purple
+}
+.trailer{
+    color: orange;
+}
+.list-group-item{
+    background-color: #210202;
+    color:lightgreen
+}

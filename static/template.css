@@ -67,7 +67,8 @@ h1, h2, p {
 
 /* 4. Searchbar styling */
 .search-size {
-    width: 500px; /* vaste breedte */
+  max-width: 500px;
+  width: 100%;
 }
 
 .search-form {
@@ -86,3 +87,40 @@ h1, h2, p {
     padding-top: 50px;
 }
 
+/* Unorganized list styling */
+ul {color: #d9d9d9;
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+/*Button styling for favorites*/
+.favorite-btn {font-size: 40px; cursor: pointer;}
+
+/*Removed button styling */
+.delete-btn {
+    background: none;      
+    border: none;               
+    cursor: pointer;       /* handje bij hover */
+    line-height: 1;
+    color: #d9d9d9;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    }
+
+.favorite-btn {background: none;      
+    border: none;            
+    cursor: pointer;       
+    line-height: 1;
+    color: #d9d9d9;
+    font-size: 24px
+    }
+
+    .backgroundblock {    background-color: rgb(169, 65, 65);
+    padding: 12px 20px;
+    display: inline-block; 
+    border-radius: 6px; 
+}
+
+
+    .content2 {margin-left: 50px ;
+    margin-top: 40px;
+    }

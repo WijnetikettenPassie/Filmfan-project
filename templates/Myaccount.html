@@ -5,13 +5,33 @@
 {% endblock %}
 
 {% block stylesheet %}
-<link rel = "stylesheet" href = "{{url_for('static',filename='template.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='template.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='myaccount.css') }}">
 {% endblock %}
 
 {% block content %}
-<h1>Welkom  {{session.get('username') }}</h1>
-<br>
-<a class="btn custom-button" href="/logout">Uitloggen</a>
+<h2 class="backgroundblock">Welkom {{ session.get('username') }}, fijn je weer te zien!</h2>
+
+<div class = "content2">
+    <h2> Favoriete films:</h2>
+    {% if favorites %}
+    <ul>
+        {% for items in favorites %}
+        <li class="styled-list">
+            <a href="/film/{{ items.film.id }}">
+                {{ items.film.title }}
+            </a>
+            <form action="/favorite/{{ items.film.id }}" method="POST">
+                <button type="submit" class="delete-btn">❌ Verwijderen</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Je hebt nog geen favorieten.</p>
+    {% endif %}
+</div>
+
+    <a class="btn custom-button " id = btn-1 href="/logout">Uitloggen</a>
+
 {% endblock %}
-
-

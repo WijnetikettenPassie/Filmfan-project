@@ -12,19 +12,22 @@
 {% block content %}
 
     <div class="movie-header">
-        <h2>Brand het hout: The movie</h2>
+        <h2>Soldaat van Oranje: Onze keus</h2>
         <div class="rating">★★★★☆</div>
-        <img class="mom-badge" src="{{ url_for('static', filename='Picture1.png') }}" alt="Movie of the Month badge">
     </div>
-
+    
     <div class="video-container page-center">
-        <iframe 
-            src="https://www.youtube.com/embed/mSX3OyW9Rao?autoplay=1&mute=1"
-            allowfullscreen>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ZFmchLCrzwU?si=vArtzN5O6lioSBpZ" title="YouTube video player" 
+        frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
         </iframe>
 
         <p class="video-text">
-            Dit is een leuke video van een brandend haardvuur. In deze film speelt de acteur hout en zijn vriend vuur.
+            Soldaat van Oranje volgt een groep Leidse studenten aan het begin van de Tweede Wereldoorlog. 
+            Wanneer Nederland wordt bezet, valt de vriendengroep uiteen: sommigen sluiten zich aan bij het verzet, anderen kiezen voor collaboratie of proberen neutraal te blijven. 
+            Hoofdpersoon Erik Hazelhoff Roelfzema groeit uit tot een belangrijke verzetsstrijder die gevaarlijke missies uitvoert voor de Nederlandse regering in Londen. 
+            De film laat zien hoe oorlog vriendschappen, loyaliteit en idealen onder druk zet
         </p>
     </div>
 
@@ -34,27 +37,27 @@
         <div class="carousel-inner">
 
             <div class="carousel-item active text-center">
-                <img src="{{ url_for('static', filename='wojak.png') }}" 
+                <img src="/static/rutger-hauer.jpg" 
                      class="d-block mx-auto" 
                      style="width:150px; border-radius:10px;"
-                     alt="Acteur 1">
-                <p class="mt-3 text-light">Acteur 1</p>
+                     alt="Rutger Hauer">
+                <p class="mt-3 text-light">Rutger Hauer</p>
             </div>
 
             <div class="carousel-item text-center">
-                <img src="{{ url_for('static', filename='pbateman.jpg') }}" 
+                <img src= "/static/jeroen-krabbe.jpg"
                      class="d-block mx-auto" 
                      style="width:150px; border-radius:10px;"
-                     alt="Acteur 2">
-                <p class="mt-3 text-light">Acteur 2</p>
+                     alt="Jeroen Krabbe">
+                <p class="mt-3 text-light">Jeroen krabbe</p>
             </div>
 
             <div class="carousel-item text-center">
-                <img src="{{ url_for('static', filename='wojak.png') }}" 
+                <img src="/static/Belinda-Meuldijk.jpg" 
                      class="d-block mx-auto" 
                      style="width:150px; border-radius:10px;"
                      alt="Acteur 3">
-                <p class="mt-3 text-light">Acteur 3</p>
+                <p class="mt-3 text-light">Belinda Meuldijk</p>
             </div>
 
         </div>

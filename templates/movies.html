@@ -1,0 +1,25 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>Movies</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel = "stylesheet" href = "{{url_for('static',filename='template.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='Filmfan2.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2 class = "backgroundblock">Hier zijn alle mooie films te vinden</h2>
+<br>
+
+<div class ="content2">
+<ul>
+    {% for film in filmslist %}
+        <li>
+            <a href="/film/{{ film.id }}">{{ film.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

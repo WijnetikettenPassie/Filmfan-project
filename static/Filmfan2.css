@@ -20,7 +20,8 @@
 
 /* Carousel grootte */
 .actor-carousel {
-    width: 60%;
+  width: 100%;
+  max-width: 800px;
 }
 
 /* Sterren rating */

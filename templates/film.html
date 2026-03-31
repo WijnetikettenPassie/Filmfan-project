@@ -6,13 +6,13 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{{ url_for ('static', filename='template.css') }}">
-<link rel="stylesheet" href="{{ url_for ('static', filename= 'film.css') }}"
+<link rel="stylesheet" href="{{ url_for ('static', filename= 'film.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
 
-<h1 class="film-titel">{{ film.title }}</h1>
+    <h1 class="film-titel">{{ film.title}}</h1>
 
     <p class="film-info">
         <strong>Regisseur:</strong>
@@ -27,23 +27,30 @@
     <hr>
 
     <h3 class="trailer">Trailer</h3>
-
-    <div class="ratio ratio-16x9 mb-4">
-        <iframe
-            src="https://www.youtube.com/embed/{{ film.trailer_url }}"
-            title="YouTube video"
-            allowfullscreen>
-        </iframe>
+    <div style="max-width: 800px;">
+        <div class="ratio ratio-16x9 mb-4">
+            <iframe src="https://www.youtube.com/embed/{{ film.trailer_url }}" allowfullscreen>
+            </iframe>
+        </div>
     </div>
+
+        <form action="/favorite/{{ film.id }}" method="POST">
+            <button type="submit" class="favorite-btn">❤️
+                Toevoegen aan je favorieten
+            </button>
+
+        </form>
+
+
 
     <h3 class="cast-titel">Cast</h3>
 
     <ul class="list-group">
         {% for rol in rollen %}
-            <li class="list-group-item">
-                {{ rol.acteur.voornaam }} {{ rol.acteur.achternaam }}
-                als <strong>{{ rol.personage }}</strong>
-            </li>
+        <li class="list-group-item">
+            {{ rol.acteur.voornaam }} {{ rol.acteur.achternaam }}
+            als <strong>{{ rol.personage }}</strong>
+        </li>
         {% endfor %}
     </ul>
 

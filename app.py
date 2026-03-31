@@ -1,8 +1,10 @@
 import sqlite3
 import os
 from forms import LoginForm, RegistrationForm
-from model import db,migrate,User,Film,Rol,Acteur,Regisseur
-from flask import Flask, render_template,redirect,flash,session
+from model import db,migrate,User,Film,Rol,Acteur,Regisseur,Favorite
+from flask import Flask, render_template,redirect,flash,request,session,url_for
+#from werkzeug.security import generate_password_hash, check_password_hash
+#from flask_login import UserMixin , login_user, logout_user, login_required
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SECRET_KEY"] = "123"      #Acceptabel voor dit project maar normaal niet verstandig
@@ -11,49 +13,60 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 migrate.init_app(app,db)
 
-#Homepage
+# Homepage
 @app.route("/")
 def home():
-    return render_template("filmfan1.html")
+    return render_template("home.html")
 
-#Loginfunctionaliteit
+# Login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(
-            email=form.email.data,
-            wachtwoord=form.wachtwoord.data
-        ).first()
 
-        if user is None:
+    if form.validate_on_submit():
+
+        query = db.select(User).filter_by(email=form.email.data)
+        user = db.session.execute(query).scalar_one_or_none()
+
+        if user is None or user.wachtwoord != form.wachtwoord.data:
             flash("Email of wachtwoord klopt niet", "danger")
-        else:
-            session["user_id"] = user.id
-            session["username"] = user.username  
-            flash("Login succesvol!", "success")
-            return redirect("/")
+            return render_template("login.html", form=form)
+
+        session["user_id"] = user.id
+        session["username"] = user.username
+        flash("Login succesvol!", "success")
+        return redirect("/")
 
     return render_template("login.html", form=form)
 
+
+# Registreren
+from datetime import datetime
+
+@app.route("/register", methods=["GET", "POST"])
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
+
     if form.validate_on_submit():
+
+        geboortedatum = form.geboortedatum.data 
+
         user = User(
             username=form.username.data,
             email=form.email.data,
             wachtwoord=form.wachtwoord.data,
-            geboortedatum=form.geboortedatum.data.strftime('%Y-%m-%d')
+            geboortedatum=geboortedatum
         )
 
         db.session.add(user)
 
         try:
             db.session.commit()
-        except Exception:
+        except Exception as e:
             db.session.rollback()
-            flash("Gebruikersnaam of email bestaat al!", "danger")
+            print(e)
+            flash("Er ging iets mis bij het opslaan!", "danger")
             return render_template("registreren.html", form=form)
 
         flash("Registratie succesvol!", "success")
@@ -61,15 +74,23 @@ def register():
 
     return render_template("registreren.html", form=form)
 
+
+# My Account
 @app.route("/myaccount")
 def myaccount():
-    if not session.get("user_id"):
+    user_id = session.get("user_id")
+
+    if not user_id:
         flash("Je moet eerst inloggen om je account te zien.", "warning")
         return redirect("/login")
-    else:
-        return render_template("myaccount.html")
+
+    query = db.select(Favorite).filter_by(user_id=user_id)
+    favorites = db.session.execute(query).scalars().all()
+
+    return render_template("myaccount.html", favorites=favorites)
 
 
+# Film pagina
 @app.route("/film/<int:film_id>")
 def film_pagina(film_id):
     film = Film.query.get_or_404(film_id)
@@ -94,3 +115,44 @@ def film_pagina(film_id):
         rollen=rollen_met_acteurs
     )
 
+# Movies
+@app.route("/movies")
+def movies():
+    query = db.select(Film).order_by(Film.title.asc())
+    filmslist = db.session.execute(query).scalars().all()
+    return render_template("movies.html", filmslist=filmslist)
+
+
+# Favorite toggle
+@app.route("/favorite/<int:film_id>", methods=["POST"])
+def favorite(film_id):
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Je moet eerst inloggen om favorieten toe te voegen.", "warning")
+        return redirect("/login")
+
+    query = db.select(Favorite).filter_by(
+        user_id=session["user_id"],
+        film_id=film_id
+    )
+    
+    #Omdat het een toggle is:
+    favorite = db.session.execute(query).scalar_one_or_none()
+
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+        flash("Film verwijderd uit favorieten.", "danger")
+        return redirect("/myaccount")
+
+    new_favorite = Favorite(
+        user_id=session["user_id"],
+        film_id=film_id
+    )
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    flash("Film toegevoegd aan favorieten!", "success")
+    return redirect(f"/film/{film_id}")
+    # --> dit was een AI tip waarbij de f string de film id maakt en je op die manier de redirect opbouwt.
+    # SUPER HANDIG!!

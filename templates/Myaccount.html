@@ -12,14 +12,14 @@
 {% block content %}
 <h2 class="backgroundblock">Welkom {{ session.get('username') }}, fijn je weer te zien!</h2>
 
-<div class = "content2">
+<div class = "content-margin">
     <h2> Favoriete films:</h2>
     {% if favorites %}
-    <ul>
+    <ul class = "list-group">
         {% for items in favorites %}
-        <li class="styled-list">
-            <a href="/film/{{ items.film.id }}">
-                {{ items.film.title }}
+        <li class="list-group-item">
+            <a  href="/film/{{ items.film.id }}">
+                  {{ items.film.title }} 
             </a>
             <form action="/favorite/{{ items.film.id }}" method="POST">
                 <button type="submit" class="delete-btn">❌ Verwijderen</button>

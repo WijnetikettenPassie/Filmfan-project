@@ -1,3 +1,10 @@
+#TO DO:
+    #Login en logoot functionality fixen
+    #Blue prints inzetten
+    #Searchbar maken
+    #Database revisen
+    #Hyperlinks stylen
+
 import sqlite3
 import os
 from forms import LoginForm, RegistrationForm
@@ -39,11 +46,13 @@ def login():
 
     return render_template("login.html", form=form)
 
+#logout
+@app.route("/logout", methods = ["GET","POST"])
+def logout():
+    session.clear()
+    return redirect("/")
 
 # Registreren
-from datetime import datetime
-
-@app.route("/register", methods=["GET", "POST"])
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
@@ -147,12 +156,12 @@ def favorite(film_id):
 
     new_favorite = Favorite(
         user_id=session["user_id"],
-        film_id=film_id
+        film_id=film_id 
     )
     db.session.add(new_favorite)
     db.session.commit()
 
     flash("Film toegevoegd aan favorieten!", "success")
-    return redirect(f"/film/{film_id}")
-    # --> dit was een AI tip waarbij de f string de film id maakt en je op die manier de redirect opbouwt.
-    # SUPER HANDIG!!
+    return redirect(url_for("film_pagina", film_id=film_id))
+    #url_for genereert route functie op basis van film / film_id
+

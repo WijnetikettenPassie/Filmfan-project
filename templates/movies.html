@@ -7,16 +7,17 @@
 {% block stylesheet %}
 <link rel = "stylesheet" href = "{{url_for('static',filename='template.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='Filmfan2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='movies.css') }}">
 {% endblock %}
 
 {% block content %}
 <h2 class = "backgroundblock">Hier zijn alle mooie films te vinden</h2>
 <br>
 
-<div class ="content2">
-<ul>
+<div class ="content-margin">
+<ul class ="list-group">
     {% for film in filmslist %}
-        <li>
+        <li class = "list-group-item">
             <a href="/film/{{ film.id }}">{{ film.title }}</a>
         </li>
     {% endfor %}

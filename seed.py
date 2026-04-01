@@ -96,4 +96,4 @@ with app.app_context():
     db.session.add_all(rollen)
     db.session.commit()
 
-    print("Database gevuld!")
+  

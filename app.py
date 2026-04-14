@@ -35,7 +35,7 @@ def login():
         query = db.select(User).filter_by(email=form.email.data)
         user = db.session.execute(query).scalar_one_or_none()
 
-        if user is None or user.wachtwoord != form.wachtwoord.data:
+        if user is None or not user.check_wachtwoord(form.wachtwoord.data):
             flash("Email of wachtwoord klopt niet", "danger")
             return render_template("login.html", form=form)
 
@@ -64,9 +64,10 @@ def register():
         user = User(
             username=form.username.data,
             email=form.email.data,
-            wachtwoord=form.wachtwoord.data,
+            wachtwoord="",
             geboortedatum=geboortedatum
         )
+        user.set_wachtwoord(form.wachtwoord.data)
 
         db.session.add(user)
 
@@ -165,3 +166,5 @@ def favorite(film_id):
     return redirect(url_for("film_pagina", film_id=film_id))
     #url_for genereert route functie op basis van film / film_id
 
+if __name__ == "__main__":
+    app.run(debug=True)

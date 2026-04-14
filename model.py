@@ -93,5 +93,11 @@ class User(db.Model):
         self.wachtwoord = wachtwoord
         self.geboortedatum = geboortedatum
 
+    def set_wachtwoord(self,wachtwoord):
+        self.wachtwoord = generate_password_hash(wachtwoord)
+    
+    def check_wachtwoord(self,wachtwoord):
+        return check_password_hash(self.wachtwoord,wachtwoord)
+
 
 

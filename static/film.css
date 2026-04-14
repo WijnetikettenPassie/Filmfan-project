@@ -1,7 +1,7 @@
 
 
 .cast-titel {
-    color: blue;
+    color: darkred;
     font-weight: bold;
     margin-top: 25px;
 }
@@ -24,14 +24,16 @@ body {
     color: aqua;
 }
 .film-titel{
-    color:purple
+    color:darkred
 }
 .trailer{
-    color: orange;
+    color: darkred;
 }
 
 .list-group-item{
     background-color: #210202;
+
+    
     color:lightgreen
 }
 
@@ -44,4 +46,5 @@ body {
     color: #d9d9d9;
     font-size: 24px
     }
+
 

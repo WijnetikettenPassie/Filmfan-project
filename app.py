@@ -5,8 +5,8 @@
     #Database revisen
     #Hyperlinks stylen
 
-import sqlite3
 import os
+from sqlalchemy import text
 from forms import LoginForm, RegistrationForm
 from model import db,migrate,User,Film,Rol,Acteur,Regisseur,Favorite
 from flask import Flask, render_template,redirect,flash,request,session,url_for
@@ -144,7 +144,7 @@ def favorite(film_id):
         user_id=session["user_id"],
         film_id=film_id
     )
-    
+
     #Omdat het een toggle is:
     favorite = db.session.execute(query).scalar_one_or_none()
 
@@ -165,3 +165,18 @@ def favorite(film_id):
     return redirect(url_for("film_pagina", film_id=film_id))
     #url_for genereert route functie op basis van film / film_id
 
+@app.route("/search", methods=["GET"])
+def search():
+    # Haal zoekterm op uit de submit
+    search = request.args.get("query")
+
+    # Als er geen zoekterm is, geven we een lege lijst terug
+    if not search:
+        return render_template("search.html", results=[], query=search)
+
+    # We zoeken naar films waarvan de titel ILIKE hoofdletterongevoelig dus!
+    #f string zet de variabele om naar een string
+    query = db.select(Film).where(Film.title.ilike(f"%{search}%"))
+    results = db.session.execute(query).scalars().all()
+
+    return render_template("search.html", results=results, query=search)

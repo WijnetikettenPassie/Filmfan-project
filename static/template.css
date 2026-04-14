@@ -92,9 +92,6 @@ ul {color: #d9d9d9;
     font-family: Arial, Helvetica, sans-serif;
     }
 
-/*Button styling for favorites*/
-.favorite-btn {font-size: 40px; cursor: pointer;}
-
 /*Removed button styling */
 .delete-btn {
     background: none;      
@@ -106,14 +103,6 @@ ul {color: #d9d9d9;
     padding-top: 10px;
     }
 
-    /* Styling for the heart button used to favourite items */
-.favorite-btn {background: none;      
-    border: none;            
-    cursor: pointer;       
-    line-height: 1;
-    color: #d9d9d9;
-    font-size: 24px
-    }
 
     /* Small jumbotron */
     .backgroundblock {    background-color: rgb(110, 41, 41);
@@ -125,4 +114,12 @@ ul {color: #d9d9d9;
 /* Adds some margin around the content */
 .content-margin {margin-left: 50px ;
  margin-top: 40px;}
+
+ /* Hyperlinks zijn wit */
+a {color:#d9d9d9;}
+
+
+.list-group-item {background-color: rgb(110, 41, 41);
+    color: #d9d9d9;
+}
 

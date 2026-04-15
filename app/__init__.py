@@ -18,9 +18,9 @@ def create_app():
     migrate.init_app(app, db)
 
     from app import models
-    from app.views.main import bp as main_bp
-    from app.views.users import bp as users_bp
-    from app.views.films import bp as films_bp
+    from app.main import bp as main_bp
+    from app.users import bp as users_bp
+    from app.films import bp as films_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(users_bp)

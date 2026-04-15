@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, flash, request, session,
 from app import db
 from app.models import Film, Rol, Acteur, Regisseur, Favorite, Rating
 
-bp = Blueprint("films", __name__, url_prefix="/film")
+from app.films import bp
 
 # Film pagina
 @bp.route("/<int:film_id>")

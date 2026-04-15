@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, redirect, flash, request, session, url_for
 from app import db
-from app.forms import LoginForm, RegistrationForm
+from app.users.forms import LoginForm, RegistrationForm
 from app.models import User, Film, UserFavoriteRating
 
-bp = Blueprint("users", __name__)
+from app.users import bp
+
 # Login
 @bp.route("/login", methods=["GET", "POST"])
 def login():

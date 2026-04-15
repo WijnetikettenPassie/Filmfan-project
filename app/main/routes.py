@@ -2,14 +2,7 @@ from flask import Blueprint, render_template, redirect, flash, request, session,
 from app import db
 from app.models import Film
 
-bp = Blueprint("main", __name__)
-
-#TO DO:
-#Database revisen
-#Hash de rest van de gegevens
-#Maak de opdracht filmfan af MEGAIMPORTANT
-    #Subissue maak een comment section
-#fix de reigssuer + releasedate tekst
+from app.main import bp   
 
 # Homepage
 @bp.route("/")

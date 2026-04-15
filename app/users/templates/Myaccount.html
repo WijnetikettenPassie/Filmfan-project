@@ -16,37 +16,39 @@
     <h2>Favoriete films:</h2>
 
     {% if favorites %}
-    <ul class="list-group">
+    {% for ufr, film in favorites %}
 
-        {% for ufr, film in favorites %}
-        <li class="list-group-item">
+    <div class="card mb-3">
+        <div class="card-body d-flex justify-content-between align-items-start">
 
-            Titel:
-            <a href="/film/{{ film.id }}">
-                 {{ film.title }}
-            </a>
-            <br>
+            <div>
+                <h5 class="card-title mb-1">
+                    <a href="/film/{{ film.id }}" class="text-decoration-none">
+                        {{ film.title }}
+                    </a>
+                </h5>
 
-            {% if ufr.rating %}
-                <span class="user-rating">Beoordeling: ⭐ {{ ufr.rating }}</span>
-            {% else %}
-                <span class="user-rating">Beoordeling: Nog niet beoordeeld</span>
-            {% endif %}
+                {% if ufr.rating %}
+                <p class="card-text mb-2">Beoordeling: ⭐ {{ ufr.rating }}</p>
+                {% else %}
+                <p class="card-text mb-2">Beoordeling: Nog niet beoordeeld</p>
+                {% endif %}
+            </div>
 
-            <form action="/favorite/{{ film.id }}" method="POST">
-                <button type="submit" class="delete-btn">❌ Verwijderen</button>
+            <form action="{{ url_for('films.favorite', film_id=film.id) }}" method="POST">
+                <button type="submit" class="btn btn-danger btn-sm">Verwijderen</button>
             </form>
+        </div>
+    </div>
 
-        </li>
-        {% endfor %}
-
-    </ul>
+    {% endfor %}
     {% else %}
-        <p>Je hebt nog geen favorieten.</p>
+    <p>Je hebt nog geen favorieten.</p>
     {% endif %}
+
 
 </div>
 
-    <a class="btn custom-button " id = btn-1 href="/logout">Uitloggen</a>
+<a class="btn custom-button " id=btn-1 href="/logout">Uitloggen</a>
 
 {% endblock %}

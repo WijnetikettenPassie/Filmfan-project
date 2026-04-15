@@ -19,6 +19,11 @@ def create_app():
 
     from app import models
     from app.views.main import bp as main_bp
+    from app.views.users import bp as users_bp
+    from app.views.films import bp as films_bp
+
     app.register_blueprint(main_bp)
+    app.register_blueprint(users_bp)
+    app.register_blueprint(films_bp)
 
     return app

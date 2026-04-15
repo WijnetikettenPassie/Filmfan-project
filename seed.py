@@ -1,8 +1,5 @@
-#Word niet langer gebruikt sinds we nu met migrations werken maar wel handig om te bewaren
-
-
-"""from app import app, db
-from models.model import Acteur, Regisseur, Film, Rol
+from app import app, db
+from app.models import Acteur, Regisseur, Film, Rol
 from datetime import date
 #in seed.py wordt de databse gemaakt en opgevuld
 with app.app_context():

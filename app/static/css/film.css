@@ -1,0 +1,48 @@
+
+h3 {color: #d9d9d9;}
+
+.cast-titel {
+    color: #d9d9d9;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+.film-titel {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.film-info {
+    font-size: 18px;
+}
+
+
+/* Favorite knop styling */
+.favorite-btn {
+    background-color: #071647;    
+    cursor: pointer;              /* Pointer cursor  */
+    color: #d9d9d9;               
+    font-size: 24px;             
+    border: 2px solid black;      /* Zwarte rand rond de knop */
+    padding: 10px 20px;           
+    margin-bottom: 20px;
+}
+
+.favorite-btn:hover {
+    background-color: #1c0081;    /* Donkerder bij hover */
+}
+
+.send-btn {background-color: #071647;    
+    cursor: pointer;              /* Pointer cursor  */
+    color: #d9d9d9;               
+    font-size: 24px;             
+    border: 2px solid black;      /* Zwarte rand rond de knop */
+    padding: 10px 20px;           
+    margin-bottom: 20px;}
+
+.send-btn:hover{background-color: #1c0081;} /* Donkerder bij hover */
+
+#padding-lowered {padding-bottom: 0px; /* net ff een tikkie minder padding dan via de template.css*/
+                margin-bottom: 15px}
+
+.list-group {padding-bottom:30px;} /*beetje padding onderaan de list */

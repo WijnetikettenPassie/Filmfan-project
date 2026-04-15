@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+
+    {%block stylesheet%}
+    <link rel="stylesheet" href="static/css/template.css">
+    {%endblock%}
+    {%block title%}
+    <title>Filmfan</title>
+    {%endblock%}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-color">
+        <div class="container-fluid">
+
+            <a class="navbar-brand fw-bold navbar-padding-left white-home" href="/">Filmfan</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainMenu">
+
+                <div class="navbar-nav ms-3">
+                    <a class="nav-link fw-bold" href="/movies">Movies</a>
+                    <a class="nav-link fw-bold" href="/myaccount">Myaccount</a>
+                </div>
+
+                <form class="d-flex search-form mx-lg-auto my-2" role="search" method="GET" action="/search">
+                    <input id="searchinput" name="query" class="form-control search-size" type="search"
+                        placeholder="Zoeken">
+                    <button class="btn custom-button" type="submit">🔍</button>
+                </form>
+
+                <div class="d-flex align-items-center ms-lg-3 mt-2 mt-lg-0">
+                    {% if session.get("user_id") %}
+                    <a href="/logout" class="login-button">Uitloggen</a>
+                    {% else %}
+                    <a href="/login" class="login-button">Login</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

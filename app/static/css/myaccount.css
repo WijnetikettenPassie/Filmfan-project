@@ -1,0 +1,3 @@
+#btn-1 {margin-top: 40px;} /* Wat extra padding bij de button die al gemaakt is in templates */
+.list-group-item{min-width: 300px;
+                max-width: 30%}

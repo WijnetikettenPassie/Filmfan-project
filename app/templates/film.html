@@ -1,0 +1,98 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>{{ film.title }}</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for ('static', filename='css/template.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/film.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="jumbotron">{{ film.title}}</h1>
+
+    <p class="film-info">
+        <strong>Regisseur:</strong>
+        {{ regisseur.voornaam }} {{ regisseur.achternaam }}
+    </p>
+
+    <p>
+        <strong>Release datum:</strong>
+        {{ film.release_datum.strftime("%d-%m-%Y") }}
+    </p>
+
+    <hr>
+    <div class="jumbotron" id = "padding-lowered">
+
+        {% if average_rating %}
+        <p>Gemiddelde beoordeling: <strong>{{ average_rating }}</strong> ⭐</p>
+        {% else %}
+        <p>Deze film heeft nog geen beoordelingen.</p>
+        {% endif %}
+
+        {% if user_rating %}
+        <p>Jouw beoordeling: <strong>{{ user_rating }}</strong> ⭐</p>
+        {% else %}
+        <p>Je hebt deze film nog niet beoordeeld.</p>
+        {% endif %}
+
+    </div>
+
+    <h3> <strong>Trailer</strong> </h3>
+    <div style="max-width: 800px;">
+        <div class="ratio ratio-16x9 mb-4">
+            <iframe src="https://www.youtube.com/embed/{{ film.trailer_url }}" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <form action="/favorite/{{ film.id }}" method="POST">
+        <button type="submit" class="favorite-btn">
+            ❤️ Toevoegen aan je favorieten
+        </button>
+
+    </form>
+
+    <div class="review-rating">
+        <form action="/review/{{ film.id }}" method="POST">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rating" id="star1" value="1">
+                <label class="form-check-label" for="star1">1⭐</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rating" id="star2" value="2">
+                <label class="form-check-label" for="star2">2⭐</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rating" id="star3" value="3">
+                <label class="form-check-label" for="star3">3⭐</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rating" id="star4" value="4">
+                <label class="form-check-label" for="star4">4⭐</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rating" id="star5" value="5">
+                <label class="form-check-label" for="star5">5⭐</label>
+            </div>
+            <br>
+            <br>
+            <button type="submit" class="send-btn"> Rating versturen </button>
+        </form>
+    </div>
+    <h3 class="cast-titel">Cast</h3>
+
+    <ul class="list-group">
+        {% for rol in rollen %}
+        <li class="list-group-item">
+            {{ rol.acteur.voornaam }} {{ rol.acteur.achternaam }}
+            als <strong>{{ rol.personage }}</strong>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

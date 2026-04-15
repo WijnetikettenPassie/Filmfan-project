@@ -1,0 +1,52 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>Myaccount</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/myaccount.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2> <strong>Welkom {{ session.get('username') }}, fijn je weer te zien!</strong></h2>
+
+<div class="content-margin">
+    <h2>Favoriete films:</h2>
+
+    {% if favorites %}
+    <ul class="list-group">
+
+        {% for ufr, film in favorites %}
+        <li class="list-group-item">
+
+            Titel:
+            <a href="/film/{{ film.id }}">
+                 {{ film.title }}
+            </a>
+            <br>
+
+            {% if ufr.rating %}
+                <span class="user-rating">Beoordeling: ⭐ {{ ufr.rating }}</span>
+            {% else %}
+                <span class="user-rating">Beoordeling: Nog niet beoordeeld</span>
+            {% endif %}
+
+            <form action="/favorite/{{ film.id }}" method="POST">
+                <button type="submit" class="delete-btn">❌ Verwijderen</button>
+            </form>
+
+        </li>
+        {% endfor %}
+
+    </ul>
+    {% else %}
+        <p>Je hebt nog geen favorieten.</p>
+    {% endif %}
+
+</div>
+
+    <a class="btn custom-button " id = btn-1 href="/logout">Uitloggen</a>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>Home</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel = "stylesheet" href = "{{url_for('static',filename='css/template.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="movie-header">
+        <h2> <strong>Soldaat van Oranje: Onze keus</strong></h2>
+        <div class="rating">★★★★☆</div>
+    </div>
+    
+    <div class="video-container page-center">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ZFmchLCrzwU?si=vArtzN5O6lioSBpZ" title="YouTube video player" 
+        frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+        </iframe>
+
+        <p class="video-text">
+            Soldaat van Oranje volgt een groep Leidse studenten aan het begin van de Tweede Wereldoorlog. 
+            Wanneer Nederland wordt bezet, valt de vriendengroep uiteen: sommigen sluiten zich aan bij het verzet, anderen kiezen voor collaboratie of proberen neutraal te blijven. 
+            Hoofdpersoon Erik Hazelhoff Roelfzema groeit uit tot een belangrijke verzetsstrijder die gevaarlijke missies uitvoert voor de Nederlandse regering in Londen. 
+            De film laat zien hoe oorlog vriendschappen, loyaliteit en idealen onder druk zet
+        </p>
+    </div>
+
+    <h2 class="text-light mt-5">Acteurs</h2>
+
+    <div id="carouselactors" class="carousel slide mt-3 actor-carousel">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active text-center">
+                <img src="/static/images/rutger-hauer.jpg" 
+                     class="d-block mx-auto" 
+                     style="width:150px; border-radius:10px;"
+                     alt="Rutger Hauer">
+                <p class="mt-3 text-light">Rutger Hauer</p>
+            </div>
+
+            <div class="carousel-item text-center">
+                <img src= "/static/images/jeroen-krabbe.jpg"
+                     class="d-block mx-auto" 
+                     style="width:150px; border-radius:10px;"
+                     alt="Jeroen Krabbe">
+                <p class="mt-3 text-light">Jeroen krabbe</p>
+            </div>
+
+            <div class="carousel-item text-center">
+                <img src="/static/images/Belinda-Meuldijk.jpg" 
+                     class="d-block mx-auto" 
+                     style="width:150px; border-radius:10px;"
+                     alt="Acteur 3">
+                <p class="mt-3 text-light">Belinda Meuldijk</p>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselactors" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselactors" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+{% endblock %}

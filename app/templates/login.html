@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{{ url_for('static', filename='template.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
             {{ form.wachtwoord }}
         </p>
         <br>
-        {{ form.submit}}
+        {{ form.submit()}}
     </form>
 
     <br>

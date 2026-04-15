@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+
+{% block title %}
+<title>Results</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2>Zoekresultaten voor "{{ query }}"</h2>
+
+{% if results %}
+   <ul class="list-group">
+    {% for film in results %}
+        <li class="list-group-item">
+            <a href="/film/{{ film.id }}">
+                {{ film.title }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>Geen resultaten gevonden voor "{{ query }}"</p>
+{% endif %}
+{% endblock %}

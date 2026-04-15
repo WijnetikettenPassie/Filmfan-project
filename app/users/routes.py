@@ -94,4 +94,30 @@ def myaccount():
     )
     favorites = db.session.execute(query).all()
 
-    return render_template("myaccount.html", favorites=favorites)
+    #Haalt usergegevens op om weer te geven
+    query_udata = (db.select(User.email, User.geboortedatum,).where(User.id == user_id))
+    user_data = db.session.execute(query_udata).one_or_none()
+
+
+    return render_template("myaccount.html", favorites=favorites,user_data=user_data)
+
+@bp.route("/accountdel")
+def delaccount():
+    user_id = session.get("user_id")
+
+    #Lijkt onnodig maar wat als gebruiker /accountdel in de url stopt
+    #Beetje vreemd gedrag dus daarom hierbij ook een log
+    if user_id == None:
+        return redirect("/login")
+
+    #Check of user wel bestaat in de database (good practice)
+    user = db.session.get(User, user_id)
+    if not user:
+        return redirect("/")
+
+    #Zo ja ....
+    db.session.delete(user)
+    db.session.commit()
+    session.clear()
+
+    return redirect("/")

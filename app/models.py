@@ -86,8 +86,9 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     wachtwoord: Mapped[str] = mapped_column(Text, nullable=False)
     geboortedatum: Mapped[Date] = mapped_column(Date)
-    favorite_links = relationship("Favorite", back_populates="user")
-    ratings = relationship("Rating", back_populates="user")
+    #Voorkomt None velden bij account deletion
+    favorite_links = relationship("Favorite", back_populates="user", cascade="all, delete") 
+    ratings = relationship("Rating", back_populates="user",cascade="all, delete")
 
     def __init__(self, username, email, wachtwoord, geboortedatum):
         self.username = username

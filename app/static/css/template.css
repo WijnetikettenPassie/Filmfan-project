@@ -1,4 +1,4 @@
-/* 1. Achtergrond is een Nederlandse vlag */
+/* Achtergrond is een Nederlandse vlag */
 body {
   background: linear-gradient(45deg, #21468C 33%, #AE1C28 33%, #AE1C28 66%, #FFFFFF 66%); 
   color: #E0E0E0; 
@@ -67,18 +67,18 @@ body {
     color: white;
 }
 
-/* 4. Searchbar styling */
+/* Searchbar styling */
 .search-size {
   max-width: 500px;
   width: 100%;
 }
 
-
-/* 6. Algemene content padding */
+/* Algemene content padding */
 .content {
     padding-left: 40px;
     padding-top: 50px;
 }
+
 
 /*Removed button styling */
 .delete-btn {

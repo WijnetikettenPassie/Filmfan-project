@@ -1,9 +1,9 @@
-from flask import render_template, redirect, flash, session, current_app
+from flask import render_template, redirect,request, flash, session, current_app
 from app import db
-from app.users.forms import LoginForm, RegistrationForm
+from app.users.forms import LoginForm, RegistrationForm, PasswordChangeForm
 from app.models import User, Film, UserFavoriteRating
 from app.users import bp
-
+from werkzeug.security import generate_password_hash
 
 # Login
 @bp.route("/login", methods=["GET", "POST"])
@@ -101,6 +101,7 @@ def myaccount():
 
     return render_template("myaccount.html", favorites=favorites,user_data=user_data)
 
+#Deze functie maakt account deletion mogelijk
 @bp.route("/accountdel")
 def delaccount():
     user_id = session.get("user_id")
@@ -111,7 +112,8 @@ def delaccount():
         return redirect("/login")
 
     #Check of user wel bestaat in de database (good practice)
-    user = db.session.get(User, user_id)
+    query = db.select(User).where(User.id == user_id)
+    user = db.session.execute(query).scalar_one_or_none()
     if not user:
         return redirect("/")
 
@@ -121,3 +123,41 @@ def delaccount():
     session.clear()
 
     return redirect("/")
+
+#Deze functie maakt het mogelijk je wachtwoord aan te passen
+#Deze functie is gemixt geschreven door mij en AI, ik kwam er niet helemaal uit
+@bp.route("/wwveranderen", methods=["GET", "POST"])
+def wwveranderen():
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/login")
+
+    form = PasswordChangeForm()
+
+    query = db.select(User).where(User.id == user_id)
+    user = db.session.execute(query).scalar_one_or_none()
+
+    if request.method == "GET":
+        return render_template("wwveranderen.html", form=form)
+
+    # Form validatie
+    if not form.validate_on_submit():
+        # voorkom dubbele foutmeldingen
+        form.old_password.errors.clear()
+        return render_template("wwveranderen.html", form=form)
+
+    # Check oud wachtwoord
+    if not user.check_wachtwoord(form.old_password.data):
+        flash("Huidig wachtwoord is onjuist", "danger")
+        return render_template("wwveranderen.html", form=form)
+
+    # Nieuw wachtwoord opslaan
+    user.wachtwoord = generate_password_hash(form.new_password.data)
+    db.session.commit()
+
+    flash("Wachtwoord succesvol gewijzigd", "success")
+    return redirect("/myaccount")
+
+
+
+        

@@ -11,7 +11,7 @@ def create_app():
     app = Flask(__name__)
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    app.config["SECRET_KEY"] = "123"
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-only')
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "..", "data.sqlite")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 

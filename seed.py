@@ -1,13 +1,16 @@
-"""from app import app, db
+"""from app import create_app, db
 from app.models import Acteur, Regisseur, Film, Rol
 from datetime import date
-#in seed.py wordt de databse gemaakt en opgevuld
+
+app = create_app()
+
 with app.app_context():
-    db.drop_all() #db drop_all moet weg bij uiteindelijke inlevering
+    db.drop_all()
     db.create_all()
 
+
     # Regisseurs
-    regisseurs = [
+    regisseurs = [Regisseur("Paul", "Verhoeven"),
         Regisseur("Erik", "de Bruyn"),
         Regisseur("Pollo", "de Pimentel"),
         Regisseur("Paula", "van der Oest"),
@@ -28,7 +31,14 @@ with app.app_context():
     db.session.commit()
 
     # Acteurs
-    acteurs = [
+    acteurs = [Acteur("Rutger", "Hauer"),
+        Acteur("Jeroen", "Krabbé"),
+        Acteur("Lex", "van Delden"),
+        Acteur("Derek", "de Lint"),
+        Acteur("Huib", "Rooymans"),
+        Acteur("Edward", "Fox"),
+        Acteur("Belinda", "Meuldijk"),
+        Acteur("Dolf", "de Vries"),
         Acteur("Fedja","van Huêt"),
         Acteur("Frank","Lammers"),
         Acteur("Frederik","Brom"),
@@ -142,7 +152,7 @@ with app.app_context():
     db.session.commit()
 
     # Film
-    films = [
+    films = [Film("Soldaat van Oranje", 16, date(1977,9,22), "ZFmchLCrzwU"),
         Film("Wilde Mossels", 1, date(2000,9,28), "UEekTd4pEyA"),
         Film("Oesters van Nam Kee", 2, date(2002,9,5), "cwakOKzm4Gc"),
         Film("Zus & Zo", 3, date(2002,5,8), "IId0TqQJHtQ"),
@@ -163,7 +173,15 @@ with app.app_context():
     db.session.commit()
 
     # Rollen
-    rollen = [
+    rollen = [       
+        Rol(1, 1, "Erik Lanshof"),
+        Rol(2, 1, "Guus LeJeune"),
+        Rol(3, 1, "Nico"),
+        Rol(4, 1, "Alex"),
+        Rol(5, 1, "Jan Weinberg"),
+        Rol(6, 1, "Colonel Rafelli"),
+        Rol(7, 1, "Esther"),
+        Rol(8, 1, "Jacques ten Brinck"),
         Rol(1,1,"Leen"), 
         Rol(2,1,"Daan"), 
         Rol(3,1,"Jacob"),
@@ -272,8 +290,8 @@ with app.app_context():
         Rol(92,15,"Zwarte Betram"),
         Rol(93,15,"Barinkhof"),
         Rol(94,15,"oom Hans"),
-    ]
+    ]   
     db.session.add_all(rollen)
     db.session.commit()"""
 
-  #Seed.py is niet langer nodig omdat we nu met migrations werken maar ik heb het alsnog maar even bewaard"""
+  #Seed.py is niet langer nodig omdat we nu met migrations werken maar ik heb het alsnog maar even bewaard

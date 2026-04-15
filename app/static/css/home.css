@@ -32,16 +32,10 @@
     display: inline-block;
     font-size: 24px;
     line-height: 1;
-    color: gold;
     transform: translateY(0.20em);
 }
 
 /* Header met sterren */
-.movie-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
 
 .movie-header h1,
 .movie-header .rating {
@@ -50,3 +44,10 @@
     padding-bottom: 20px;
 }
 
+/* Carousel forced images op de goede size */
+.actor-carousel img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover; /* afbeelding wordt bijgesneden */
+    border-radius: 10px;
+}

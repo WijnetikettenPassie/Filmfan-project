@@ -57,9 +57,11 @@ class Film(db.Model):
 
 class Favorite(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    film_id: Mapped[int] = mapped_column(ForeignKey("film.id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+    film_id: Mapped[int] = mapped_column(ForeignKey("film.id", ondelete="CASCADE"), nullable=False)
+
     __table_args__ = (UniqueConstraint("user_id", "film_id", name="uix_user_film"),)
+
     user = relationship("User", back_populates="favorite_links")
     film = relationship("Film", back_populates="favorite_links")
 
@@ -67,11 +69,13 @@ class Favorite(db.Model):
         self.user_id = user_id
         self.film_id = film_id
 
+
 class Rating(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     value: Mapped[int] = mapped_column(Integer, nullable=False)
-    film_id: Mapped[int] = mapped_column(ForeignKey("film.id"), nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    film_id: Mapped[int] = mapped_column(ForeignKey("film.id", ondelete="CASCADE"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+
     film = relationship("Film", back_populates="ratings")
     user = relationship("User", back_populates="ratings")
 

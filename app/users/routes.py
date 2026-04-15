@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template, redirect, flash, request, session, url_for
-from app import db
+from flask import render_template, redirect, flash,session
 from app.users.forms import LoginForm, RegistrationForm
 from app.models import User, Film, UserFavoriteRating
-
+from app import db
 from app.users import bp
 
 # Login

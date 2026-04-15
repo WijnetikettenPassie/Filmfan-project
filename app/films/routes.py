@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash, request, session, url_for
+from flask import render_template, redirect, flash, request, session, url_for
 from app import db
 from app.models import Film, Rol, Acteur, Regisseur, Favorite, Rating
 

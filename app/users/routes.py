@@ -1,8 +1,9 @@
-from flask import render_template, redirect, flash,session
+from flask import render_template, redirect, flash, session, current_app
+from app import db
 from app.users.forms import LoginForm, RegistrationForm
 from app.models import User, Film, UserFavoriteRating
-from app import db
 from app.users import bp
+
 
 # Login
 @bp.route("/login", methods=["GET", "POST"])
@@ -10,18 +11,24 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
+        try:
+            query = db.select(User).filter_by(email=form.email.data)
+            user = db.session.execute(query).scalar_one_or_none()
 
-        query = db.select(User).filter_by(email=form.email.data)
-        user = db.session.execute(query).scalar_one_or_none()
+            if user is None or not user.check_wachtwoord(form.wachtwoord.data):
+                flash("Email of wachtwoord klopt niet", "danger")
+                current_app.logger.info(f"Login poging mislukte voor email: {form.email.data}")
+                return render_template("login.html", form=form)
 
-        if user is None or not user.check_wachtwoord(form.wachtwoord.data):
-            flash("Email of wachtwoord klopt niet", "danger")
+            session["user_id"] = user.id
+            session["username"] = user.username
+            flash("Login succesvol!", "success")
+            current_app.logger.info(f"Login succesvol voor gebruiker: {user.username} (ID: {user.id})")
+            return redirect("/")
+        except Exception as e:
+            current_app.logger.error(f"Fout bij inloggen: {e}")
+            flash("Er ging iets mis tijdens het inloggen. Probeer het later opnieuw.", "danger")
             return render_template("login.html", form=form)
-
-        session["user_id"] = user.id
-        session["username"] = user.username
-        flash("Login succesvol!", "success")
-        return redirect("/")
 
     return render_template("login.html", form=form)
 
@@ -37,9 +44,7 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-
-        geboortedatum = form.geboortedatum.data 
-
+        geboortedatum = form.geboortedatum.data
         user = User(
             username=form.username.data,
             email=form.email.data,
@@ -49,17 +54,27 @@ def register():
         user.set_wachtwoord(form.wachtwoord.data)
 
         db.session.add(user)
-
         try:
             db.session.commit()
+            current_app.logger.info(f"Nieuwe gebruiker geregistreerd: {user.username} (ID: {user.id})")
+
         except Exception as e:
             db.session.rollback()
-            print(e)
-            flash("Er ging iets mis bij het opslaan!", "danger")
+            current_app.logger.error(f"Fout bij registreren: {e}")
+            flash("Er ging iets mis tijdens het registreren. Probeer het later opnieuw.", "danger")
             return render_template("registreren.html", form=form)
 
+        # Sla de gegevens op in de sessie
+        session["user_id"] = user.id
+        session["username"] = user.username
+
+        # Succesbericht naar de gebruiker
         flash("Registratie succesvol!", "success")
-        return redirect("/login")
+
+        # Log de succesvolle registratie 
+        current_app.logger.info(f"Gebruiker {user.username} (ID: {user.id}) is succesvol ingelogd na registratie.")
+
+        return redirect("/myaccount")
 
     return render_template("registreren.html", form=form)
 

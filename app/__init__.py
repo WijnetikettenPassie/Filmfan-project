@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+import logging
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -25,5 +26,14 @@ def create_app():
     app.register_blueprint(main_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(films_bp)
+    
+    app.logger.setLevel(logging.INFO)
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter(
+    '%(asctime)s - %(levelname)s - %(message)s'
+    ))
+
 
     return app
+

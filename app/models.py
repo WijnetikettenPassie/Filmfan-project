@@ -1,13 +1,15 @@
 from datetime import date
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Integer, Text, Date, ForeignKey, UniqueConstraint
+from sqlalchemy import Integer, Text, Date, ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db, migrate
+from app import db
+
 
 class Acteur(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     voornaam: Mapped[str] = mapped_column(Text)
     achternaam: Mapped[str] = mapped_column(Text)
+
     rollen = relationship("Rol", back_populates="acteur")
 
     def __init__(self, voornaam: str, achternaam: str):
@@ -18,6 +20,7 @@ class Regisseur(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     voornaam: Mapped[str] = mapped_column(Text)
     achternaam: Mapped[str] = mapped_column(Text)
+
     films = relationship("Film", back_populates="regisseur")
 
     def __init__(self, voornaam: str, achternaam: str):
@@ -38,12 +41,14 @@ class Rol(db.Model):
         self.film_id = film_id
         self.personage = personage
 
+
 class Film(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(Text)
     regisseur_id: Mapped[int] = mapped_column(ForeignKey("regisseur.id"))
     release_datum: Mapped[date] = mapped_column(Date, nullable=False)
     trailer_url: Mapped[str] = mapped_column(Text, nullable=False)
+
     regisseur = relationship("Regisseur", back_populates="films")
     rollen = relationship("Rol", back_populates="film")
     favorite_links = relationship("Favorite", back_populates="film")
@@ -59,8 +64,6 @@ class Favorite(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     film_id: Mapped[int] = mapped_column(ForeignKey("film.id", ondelete="CASCADE"), nullable=False)
-
-    __table_args__ = (UniqueConstraint("user_id", "film_id", name="uix_user_film"),)
 
     user = relationship("User", back_populates="favorite_links")
     film = relationship("Film", back_populates="favorite_links")
@@ -90,9 +93,9 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     wachtwoord: Mapped[str] = mapped_column(Text, nullable=False)
     geboortedatum: Mapped[Date] = mapped_column(Date)
-    #Voorkomt None velden bij account deletion
-    favorite_links = relationship("Favorite", back_populates="user", cascade="all, delete") 
-    ratings = relationship("Rating", back_populates="user",cascade="all, delete")
+
+    favorite_links = relationship("Favorite", back_populates="user", cascade="all, delete")
+    ratings = relationship("Rating", back_populates="user", cascade="all, delete")
 
     def __init__(self, username, email, wachtwoord, geboortedatum):
         self.username = username
@@ -106,10 +109,12 @@ class User(db.Model):
     def check_wachtwoord(self, wachtwoord):
         return check_password_hash(self.wachtwoord, wachtwoord)
 
-class UserFavoriteRating(db.Model):
-    __tablename__ = "user_favorite_ratings"
-    __table_args__ = {"info": {"is_view": True}}
 
-    user_id = db.Column(db.Integer, primary_key=True)
-    film_id = db.Column(db.Integer, primary_key=True)
-    rating = db.Column(db.Integer)
+# VIEW: user_favorite_rating
+class UserFavoriteRating(db.Model):
+    __tablename__ = "user_favorite_rating"
+    __table_args__ = {"extend_existing": True, "info": {"is_view": True}}
+
+    user_id = mapped_column(Integer, primary_key=True)
+    film_id = mapped_column(Integer, primary_key=True)
+    rating = mapped_column(Integer)

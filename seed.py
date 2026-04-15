@@ -1,4 +1,4 @@
-"""from app import create_app, db
+from app import create_app, db
 from app.models import Acteur, Regisseur, Film, Rol
 from datetime import date
 
@@ -292,6 +292,6 @@ with app.app_context():
         Rol(94,15,"oom Hans"),
     ]   
     db.session.add_all(rollen)
-    db.session.commit()"""
+    db.session.commit()
 
   #Seed.py is niet langer nodig omdat we nu met migrations werken maar ik heb het alsnog maar even bewaard

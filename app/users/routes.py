@@ -1,7 +1,7 @@
 from flask import render_template, redirect,request, flash, session, current_app
 from app import db
 from app.users.forms import LoginForm, RegistrationForm, PasswordChangeForm
-from app.models import User, Film, UserFavoriteRating
+from app.models import User, Film,UserFavoriteRating
 from app.users import bp
 from werkzeug.security import generate_password_hash
 
@@ -78,7 +78,6 @@ def register():
 
     return render_template("registreren.html", form=form)
 
-# My Account
 @bp.route("/myaccount")
 def myaccount():
     user_id = session.get("user_id")
@@ -87,19 +86,27 @@ def myaccount():
         flash("Je moet eerst inloggen om je account te zien.", "warning")
         return redirect("/login")
 
+    # Haal favorieten + ratings op via de VIEW
     query = (
         db.select(UserFavoriteRating, Film)
         .join(Film, Film.id == UserFavoriteRating.film_id)
         .where(UserFavoriteRating.user_id == user_id)
+        .order_by(Film.title)
     )
+
     favorites = db.session.execute(query).all()
 
-    #Haalt usergegevens op om weer te geven
-    query_udata = (db.select(User.email, User.geboortedatum,).where(User.id == user_id))
-    user_data = db.session.execute(query_udata).one_or_none()
+    # Haal user info op
+    user_data = db.session.execute(
+        db.select(User.email, User.geboortedatum)
+        .where(User.id == user_id)
+    ).one_or_none()
 
-
-    return render_template("myaccount.html", favorites=favorites,user_data=user_data)
+    return render_template(
+        "myaccount.html",
+        favorites=favorites,
+        user_data=user_data
+    )
 
 #Deze functie maakt account deletion mogelijk
 @bp.route("/accountdel")

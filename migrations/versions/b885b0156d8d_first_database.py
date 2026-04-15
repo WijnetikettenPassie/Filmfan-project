@@ -1,8 +1,8 @@
-"""empty message
+"""first database
 
-Revision ID: 676cdb404d58
+Revision ID: b885b0156d8d
 Revises: 
-Create Date: 2026-04-15 20:42:01.165228
+Create Date: 2026-04-15 21:21:50.527964
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '676cdb404d58'
+revision = 'b885b0156d8d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,13 +40,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('user_favorite_ratings',
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('film_id', sa.Integer(), nullable=False),
-    sa.Column('rating', sa.Integer(), nullable=True),
-    sa.PrimaryKeyConstraint('user_id', 'film_id'),
-    info={'is_view': True}
-    )
     op.create_table('film',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.Text(), nullable=False),
@@ -62,8 +55,7 @@ def upgrade():
     sa.Column('film_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['film_id'], ['film.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ondelete='CASCADE'),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('user_id', 'film_id', name='uix_user_film')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('rating',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -92,7 +84,6 @@ def downgrade():
     op.drop_table('rating')
     op.drop_table('favorite')
     op.drop_table('film')
-    op.drop_table('user_favorite_ratings')
     op.drop_table('user')
     op.drop_table('regisseur')
     op.drop_table('acteur')
